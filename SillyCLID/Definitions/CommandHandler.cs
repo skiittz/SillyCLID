@@ -63,7 +63,8 @@
         Remove,
         Tear,
         Attack,
-        Describe
+        Describe,
+        Search
     }
 
     public class CommandParameters

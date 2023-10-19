@@ -124,7 +124,7 @@ namespace SillyCLID.Utilities
             var masterBedroom = new MasterBedroom();
             spawnRoom.RegisterJoin<Tunnel>(Direction.East, hallway);
             hallway.RegisterJoin<WoodenDoor>(Direction.East, sistersRoom);
-            hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor(new MasterBedroomKey()));
+            hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor(new Key_WoodenDoor()));
             spawnRoom.Spawn();
         }
     }

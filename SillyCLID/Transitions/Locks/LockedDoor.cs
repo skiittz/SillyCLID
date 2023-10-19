@@ -1,5 +1,4 @@
 ﻿using SillyCLID.Definitions;
-using SillyCLID.InventoryItems;
 
 namespace SillyCLID.Transitions.Locks
 {
@@ -15,8 +14,12 @@ namespace SillyCLID.Transitions.Locks
 
         public void AttemptUnlock()
         {
-            if (Utilities.Program._character.Inventory.ContainsKey(key.ItemName)) 
-                IsUnlocked = true;
+	        if (Utilities.Program._character.Inventory.ContainsKey(key.ItemName))
+	        {
+		        IsUnlocked = true;
+		        Utilities.Program._character.Inventory.Remove(key.ItemName);
+		        Console.WriteLine("You insert they key into the hole and turn it.  The door unlocks!");
+	        }
         }
            
         public void FailAttempt()

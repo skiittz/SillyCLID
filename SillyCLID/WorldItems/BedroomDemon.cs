@@ -7,15 +7,16 @@ namespace SillyCLID.WorldItems
     public class BedroomDemon : IInteractableObject
     {
         public  string ItemName => "Demon";
-        public CommandHandler CommandHandler { get; }
+        public CommandHandler CommandHandler { get; } = new(commands);
+
         private static readonly Dictionary<Command, Func<string[], ICommandResponse>> commands =
             new()
             {
                     {
                         Command.Tickle, _ =>
                         {
-                            var key = new MasterBedroomKey();
-                            Program._character.AddItemToInventory(new MasterBedroomKey(), out var _);
+                            var key = new Key_WoodenDoor();
+                            Program._character.AddItemToInventory(new Key_WoodenDoor(), out var _);
                             return new SimpleResponse("The demon giggles.  He then gives you a key.");
                         }
                     },
@@ -33,10 +34,5 @@ namespace SillyCLID.WorldItems
                         }
                     }
                 };
-
-        public BedroomDemon()
-        {
-            CommandHandler = new CommandHandler(commands);
-        }
     }
 }

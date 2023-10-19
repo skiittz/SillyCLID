@@ -7,7 +7,7 @@ namespace SillyCLID.Rooms
         public MasterBedroom()
         {
             Name = "Master Bedroom";
-            Description = "This is your parents bedroom your mom is...omg I cannot describe this scene...";
+            Description = "This is was your parent's bedroom.";
         }
     }
 }

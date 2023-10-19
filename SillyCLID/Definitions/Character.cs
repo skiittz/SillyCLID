@@ -14,7 +14,7 @@ namespace SillyCLID.Definitions
         {
             if (Inventory.ContainsKey(item.ItemName))
             {
-                response = $"What are you doing? You already have {item.ItemName}!";
+                response = string.Empty;
                 return;
             }
 
