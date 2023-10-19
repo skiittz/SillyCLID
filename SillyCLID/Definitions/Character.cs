@@ -1,37 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace SillyCLID.Definitions
 {
     public class Character
     {
         public int CurrentHealth;
-        public Dictionary<string,IAmAnInventoryItem> Inventory = new();
+        public int MaxHealth => 100;
+        public int HealthPercent => (int)(((float)CurrentHealth/(float)MaxHealth)*100);
+        public Dictionary<string,IInteractableObject> Inventory = new();
         public Dictionary<string, Func<string>> Abilities = new();
 
-        public void AddItemToInventory(IAmAnInventoryItem item, out string response)
+        public void AddItemToInventory<T>(T item, out string response) where T : IInteractableObject
         {
-            if (Inventory.ContainsKey(item.Name))
+            if (Inventory.ContainsKey(item.ItemName))
             {
-                response = $"What are you doing? You already have {item.Name}!";
+                response = $"What are you doing? You already have {item.ItemName}!";
                 return;
             }
 
-            Inventory.Add(item.Name, item);
-            response = $"You have obtained {item.Name}";
+            Inventory.Add(item.ItemName, item);
+            response = $"You have obtained {item.ItemName}";
         }
 
         public void CheckInventory()
         {
-            var stringBuilder = new StringBuilder("You have:");
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("You have:");
             foreach (var item in Inventory)
             {
                 stringBuilder.AppendLine($"- {item.Key}");
             }
             Console.Write(stringBuilder);
+        }
+
+        public void PrintStatus()
+        {
+            var healthBar = new StringBuilder();
+            foreach (var i in Enumerable.Range(0,CurrentHealth/10))
+            {
+                healthBar.Append("|");
+            }
+
+            Console.WriteLine($"HP: [{healthBar,-10}] {HealthPercent}%");
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using SillyCLID.Definitions;
-using SillyCLID.InteractableItems;
+using SillyCLID.InventoryItems;
 using SillyCLID.Rooms;
 using SillyCLID.Transitions.Doors;
 using SillyCLID.Transitions.Locks;
+using SillyCLID.WorldItems;
 
 namespace SillyCLID.Utilities
 {
@@ -19,10 +20,12 @@ namespace SillyCLID.Utilities
             string input = String.Empty;
             while (true)
             {
+                _character.PrintStatus();
                 if (_character.CurrentHealth <= 0)
                 {
                     Console.WriteLine("You are dead");
-                    break;
+                    Initialize();
+                    continue;
                 }
                 input = Console.ReadLine().ToLower();
                 if (input == "quit")
@@ -53,10 +56,14 @@ namespace SillyCLID.Utilities
                     continue;
                 }
 
-                var verb = commandParts[0].FixCase();
+                if(!Enum.TryParse(commandParts[0], ignoreCase:true, out Command verb))
+                {
+                    Console.WriteLine("I dont know how to do that....");
+                    continue;
+                }
                 var targetName = commandParts[1].FixCase();
 
-                if (verb == "Go" || verb == "Walk")
+                if (verb == Command.Go || verb == Command.Walk)
                 {
                     Direction targetDirection;
                     if (Direction.TryParse(targetName, out targetDirection))
@@ -73,19 +80,23 @@ namespace SillyCLID.Utilities
 
                 if (_character.Inventory.ContainsKey(targetName))
                 {
-                    var target = _character.Inventory[targetName];
-                    if (target.Commands.ContainsKey(verb))
-                        Console.WriteLine(target.Commands[verb]());
+                    var response = _character.Inventory[targetName].CommandHandler.TryHandle(verb, null);
+                    if (response.IsSuccess)
+                    {
+                        response.Complete();
+                        continue;
+                    }
 
-                    continue;
                 }
 
-                if (_currentRoom.InteractableObjects.ContainsKey(targetName))
+                if (_currentRoom.WorldItems.ContainsKey(targetName))
                 {
-                    var target = _currentRoom.InteractableObjects[targetName];
-                    if (target.Commands.ContainsKey(verb))
-                        Console.WriteLine(target.Commands[verb]());
-                    continue;
+                    var response = _currentRoom.WorldItems[targetName].CommandHandler.TryHandle(verb, null);
+                    if (response.IsSuccess)
+                    {
+                        response.Complete();
+                        continue;
+                    }
                 }
 
                 Console.WriteLine("I dont know how to do that....");
@@ -94,7 +105,9 @@ namespace SillyCLID.Utilities
 
         private static void Initialize()
         {
-            _character = new Character();
+            if (_character == null)
+                _character = new Character();
+
             var spawnRoom = new Bedroom();
             _currentRoom = spawnRoom;
 
@@ -102,19 +115,16 @@ namespace SillyCLID.Utilities
             var sisterDemon = new BedroomDemon();
             var sistersRoom = new SistersRoom
             {
-                InteractableObjects =
+                WorldItems =
                 {
-                    {sisterDemon.Name, sisterDemon}
+                    {sisterDemon.ItemName, sisterDemon}
                 }
             };
 
             var masterBedroom = new MasterBedroom();
             spawnRoom.RegisterJoin<Tunnel>(Direction.East, hallway);
             hallway.RegisterJoin<WoodenDoor>(Direction.East, sistersRoom);
-            hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor
-            {
-
-            });
+            hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor(new MasterBedroomKey()));
             spawnRoom.Spawn();
         }
     }

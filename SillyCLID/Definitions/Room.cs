@@ -7,34 +7,28 @@ namespace SillyCLID.Definitions
         public string Name { get; protected set; }
         public string Description { get; protected set; }
         
-        public Dictionary<string, IAmAnInteractableObject> InteractableObjects { get; set; } = new();
+        public Dictionary<string, IInteractableObject> WorldItems { get; set; } = new();
         public Dictionary<Direction, IJoinRooms> Exits { get; set; } = new();
 
         public void Describe()
         {
-            var stringBuilder = new StringBuilder(Description);
-            stringBuilder.AppendLine();
-
-            if (InteractableObjects.Any())
+            Console.WriteLine(Description);
+            if (WorldItems.Any())
             {
-                stringBuilder.AppendLine("The room contains:");
-                stringBuilder.AppendLine();
-
-                foreach (var interactableObject in InteractableObjects)
+                Console.WriteLine("The room contains:");
+                foreach (var interactableObject in WorldItems)
                 {
-                    stringBuilder.AppendLine(interactableObject.Value.Describe());
+                    var response = interactableObject.Value.CommandHandler.TryHandle(Command.Describe, null);
+                    if(response.IsSuccess)
+                        response.Complete();
                 }
-
-                stringBuilder.AppendLine();
             }
 
             foreach (var exit in Exits)
             {
-                stringBuilder.AppendLine(
-                    $"There is a {exit.Value.Name} to the {exit.Key} leading to a {exit.Value.NextRoom.Name}");
+                Console.WriteLine($"There is a {exit.Value.Name} to the {exit.Key} leading to a {exit.Value.NextRoom.Name}");
             }
-
-            Console.Write(stringBuilder.ToString());
+            Console.WriteLine();
         }
     }
 }

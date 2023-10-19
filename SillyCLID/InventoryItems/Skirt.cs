@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SillyCLID.Definitions;
+﻿using SillyCLID.Definitions;
 
 namespace SillyCLID.InventoryItems
 {
-    public class Skirt : IAmAnInventoryItem
+    public class Skirt : IInteractableObject
     {
-        public string Name => "Skirt";
-        public Dictionary<string, Func<string>> Commands { get; }
+        private static string _itemName = "Skirt";
+
+        public string ItemName => _itemName;
+        public CommandHandler CommandHandler { get; }
+
+        private static readonly Dictionary<Command, Func<string[], ICommandResponse>> commands =
+            new()
+            {
+                {Command.Inspect, _ => new SimpleResponse("It's a pleated skirt. It's blue. It's a little small...")},
+                {Command.Remove, _ => new SimpleResponse("Excuse me, what?!  That is NOT an appropriate way to behave!")},
+                {Command.Tear, _ =>
+                {
+                    Utilities.Program._character.Inventory.Remove(_itemName);
+                    Utilities.Program._character.AddItemToInventory(new TornSkirt(), out var response);
+                    return new SimpleResponse("You have torn the skirt...do you feel better about yourself now?");
+                }}
+            };
 
         public Skirt()
         {
-            Commands = new Dictionary<string, Func<string>>
-            {
-                {"Inspect",() => "It's a pleated skirt. It's blue. It's a little small..."},
-                {"Remove", () => "Excuse me, what?!  That is NOT an appropriate way to behave!"},
-                {"Tear", () =>
-                {
-                    Utilities.Program._character.Inventory.Remove(this.Name);
-                    Utilities.Program._character.AddItemToInventory(new TornSkirt(), out var response);
-                    return "You have torn the skirt...do you feel better about yourself now?";
-                }}
-            };
+            CommandHandler = new CommandHandler(commands);
         }
     }
 }

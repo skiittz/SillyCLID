@@ -2,15 +2,27 @@
 
 namespace SillyCLID.InventoryItems
 {
-    public class TornSkirt : IAmAnInventoryItem
+    public class TornSkirt : IInteractableObject
     {
-        public string Name => "Torn Skirt";
+        private static string _itemName = "Torn Skirt";
+        public string ItemName => _itemName;
+        public CommandHandler CommandHandler { get; }
 
-        public Dictionary<string, Func<string>> Commands => new()
+        private static readonly Dictionary<Command, Func<string[], ICommandResponse>> commands =
+            new()
+            {
+                {
+                    Command.Inspect,
+                    _ => new SimpleResponse("It's a skirt.  Now it's torn.  You should be embarrassed.")
+                },
+                { Command.Remove, _ => new SimpleResponse("It is already torn! Just leave it alone!") },
+                { Command.Tear, _ => new SimpleResponse("You already did that!") }
+
+            };
+
+        public TornSkirt()
         {
-            { "Inspect", () => "It's a skirt.  Now it's torn.  You are embarrassed." },
-            { "Remove", () => "It is already torn! Just leave it alone!"},
-            { "Tear", () => "You already did that!"},
-        };
+            CommandHandler = new CommandHandler(commands);
+        }
     }
 }

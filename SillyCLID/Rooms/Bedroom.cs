@@ -12,15 +12,14 @@ namespace SillyCLID.Rooms
         }
         public void Spawn()
         {
-            Utilities.Program._character = new Character
-            {
-                CurrentHealth = 100
-            };
+            if (Utilities.Program._character.CurrentHealth < Utilities.Program._character.MaxHealth)
+                Utilities.Program._character.CurrentHealth = Utilities.Program._character.MaxHealth;
+
             var skirt = new Skirt();
             //do nothing with response
             Utilities.Program._character.AddItemToInventory(skirt, out var response);
             this.Describe();
-            Console.WriteLine(" For some reason you appear to be wearing your sister's skirt. " +
+            Console.WriteLine("For some reason you appear to be wearing your sister's skirt. " +
                           " You have no memory of putting this on.");
         }
     }

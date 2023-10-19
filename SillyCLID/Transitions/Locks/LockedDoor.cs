@@ -1,16 +1,24 @@
 ﻿using SillyCLID.Definitions;
+using SillyCLID.InventoryItems;
 
 namespace SillyCLID.Transitions.Locks
 {
     public class LockedDoor : IBlockRoomJoints
     {
         public bool IsUnlocked { get; set; }
-        public void AttemptUnlock()
+        private readonly IInteractableObject key;
+
+        public LockedDoor(IInteractableObject key)
         {
-            if (Utilities.Program._character.Inventory.ContainsKey("Bedroom Key")) 
-                IsUnlocked = true;
+            this.key = key;
         }
 
+        public void AttemptUnlock()
+        {
+            if (Utilities.Program._character.Inventory.ContainsKey(key.ItemName)) 
+                IsUnlocked = true;
+        }
+           
         public void FailAttempt()
         {
             Console.WriteLine("The door is locked.");
