@@ -20,38 +20,24 @@
     public interface ICommandResponse
     {
         public bool IsSuccess { get; }
-        public void Complete();
+        public string Output { get; }
     } 
 
     public class SimpleResponse : ICommandResponse
     {
         public bool IsSuccess => true;
-        private readonly string output;
+        public string Output { get; }
 
         public SimpleResponse(string output)
         {
-            this.output = output;
-        }
-
-        public void Complete()
-        {
-            Console.WriteLine(output);
+            this.Output = output;
         }
     }
 
     public class CommandNotRegisteredResponse : ICommandResponse
     {
         public bool IsSuccess => false;
-
-        public CommandNotRegisteredResponse()
-        {
-
-        }
-
-        public void Complete()
-        {
-            //do nothing
-        }
+        public string Output { get; }
     }
 
     public enum Command
@@ -64,7 +50,8 @@
         Tear,
         Attack,
         Describe,
-        Search
+        Search,
+        Check
     }
 
     public class CommandParameters

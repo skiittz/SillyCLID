@@ -66,7 +66,7 @@ namespace SillyCLID.Utilities
                 if (verb == Command.Go || verb == Command.Walk)
                 {
                     Direction targetDirection;
-                    if (Direction.TryParse(targetName, out targetDirection))
+                    if (Direction.TryParse(targetName, ignoreCase:true, out targetDirection))
                     {
                         if (_currentRoom.Exits.ContainsKey(targetDirection))
                         {
@@ -83,7 +83,7 @@ namespace SillyCLID.Utilities
                     var response = _character.Inventory[targetName].CommandHandler.TryHandle(verb, null);
                     if (response.IsSuccess)
                     {
-                        response.Complete();
+                        Console.WriteLine(response.Output);
                         continue;
                     }
 
@@ -94,7 +94,7 @@ namespace SillyCLID.Utilities
                     var response = _currentRoom.WorldItems[targetName].CommandHandler.TryHandle(verb, null);
                     if (response.IsSuccess)
                     {
-                        response.Complete();
+                        Console.WriteLine(response.Output);
                         continue;
                     }
                 }
@@ -128,19 +128,6 @@ namespace SillyCLID.Utilities
             var foyer = new MajesticFoyer();
             hallway.RegisterJoin<ShimmeringPortal>(Direction.South, foyer,new MagicBarrier(new Key_MagicGem()));
             spawnRoom.Spawn();
-        }
-    }
-
-    public static class Extensions
-    {
-        public static string FixCase(this string str)
-        {
-            if (str.Length == 0)
-                return String.Empty;
-            else if (str.Length == 1)
-                return str.ToUpper();
-            else
-                return char.ToUpper(str[0]) + str.Substring(1);
         }
     }
 }

@@ -19,9 +19,14 @@ namespace SillyCLID.Definitions
                 Console.WriteLine("The room contains:");
                 foreach (var interactableObject in WorldItems)
                 {
+                    var output = new StringBuilder();
+                    output.Append($"{interactableObject.Key} - ");
                     var response = interactableObject.Value.CommandHandler.TryHandle(Command.Describe, null);
-                    if(response.IsSuccess)
-                        response.Complete();
+                    if (response.IsSuccess)
+                    {
+                        output.Append(response.Output);
+                        Console.WriteLine(output);
+                    }
                 }
             }
 
