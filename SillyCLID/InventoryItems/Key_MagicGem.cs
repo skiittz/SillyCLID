@@ -1,8 +1,10 @@
-﻿using SillyCLID.Definitions;
+﻿using SillyCLID.Commands;
+using SillyCLID.Commands.Responses;
+using SillyCLID.Definitions;
 
 namespace SillyCLID.InventoryItems
 {
-	internal class Key_MagicGem : IInteractableObject
+    internal class Key_MagicGem : IInteractableObject
 	{
 		public string ItemName => "Magic Gem";
 		public CommandHandler CommandHandler { get; } = new(commands);

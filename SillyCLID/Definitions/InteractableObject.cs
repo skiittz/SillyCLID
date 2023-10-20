@@ -1,4 +1,6 @@
-﻿namespace SillyCLID.Definitions
+﻿using SillyCLID.Commands;
+
+namespace SillyCLID.Definitions
 {
     public interface IInteractableObject
     { 

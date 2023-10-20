@@ -1,9 +1,11 @@
-﻿using SillyCLID.Definitions;
+﻿using SillyCLID.Commands;
+using SillyCLID.Commands.Responses;
+using SillyCLID.Definitions;
 using SillyCLID.InventoryItems;
 
 namespace SillyCLID.WorldItems
 {
-	public class MangledCorpse : IInteractableObject
+    public class MangledCorpse : IInteractableObject
 	{
 		public string ItemName => "Mangled Corpse";
 		public CommandHandler CommandHandler { get; } = new(commands);

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SillyCLID.Commands;
+using SillyCLID.Commands.KeywordHandling;
 using SillyCLID.Definitions;
 using SillyCLID.InventoryItems;
 using SillyCLID.Rooms;
@@ -11,7 +13,7 @@ namespace SillyCLID.Utilities
     public static class Program
     {
         public static Character _character;
-        private static Room _currentRoom;
+        public static Room _currentRoom;
 
         static void Main(string[] args)
         {
@@ -44,18 +46,6 @@ namespace SillyCLID.Utilities
                     continue;
                 }
 
-                if (input == "check inventory")
-                {
-                    _character.CheckInventory();
-                    continue;
-                }
-
-                if (input == "check room")
-                {
-                    _currentRoom.Describe();
-                    continue;
-                }
-
                 if(!Enum.TryParse(commandParts[0], ignoreCase:true, out Command verb))
                 {
                     Console.WriteLine("I dont know how to do that....");
@@ -63,10 +53,17 @@ namespace SillyCLID.Utilities
                 }
                 var targetName = commandParts[1].FixCase();
 
+                if (Enum.TryParse(targetName, ignoreCase: true, out Keywords keyword))
+                {
+                    if (!KeywordHandler.Handle(verb, keyword))
+                        Console.WriteLine("I dont know how to do that...");
+                    continue;
+                }
+
+
                 if (verb == Command.Go || verb == Command.Walk)
                 {
-                    Direction targetDirection;
-                    if (Direction.TryParse(targetName, ignoreCase:true, out targetDirection))
+                    if (Enum.TryParse(targetName, ignoreCase:true, out Direction targetDirection))
                     {
                         if (_currentRoom.Exits.ContainsKey(targetDirection))
                         {

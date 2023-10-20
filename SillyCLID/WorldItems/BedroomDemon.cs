@@ -1,4 +1,6 @@
-﻿using SillyCLID.Definitions;
+﻿using SillyCLID.Commands;
+using SillyCLID.Commands.Responses;
+using SillyCLID.Definitions;
 using SillyCLID.InventoryItems;
 using SillyCLID.Utilities;
 
