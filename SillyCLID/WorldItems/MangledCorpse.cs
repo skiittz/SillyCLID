@@ -15,7 +15,9 @@ namespace SillyCLID.WorldItems
 					Command.Describe, _ =>
 					{
 						return new SimpleResponse("It's mangled pretty badly and unidentifiable.  What could have done this?");
-					},
+					}
+                },
+                {
 					Command.Search, _ =>
 					{
 						Console.WriteLine("It's very gross...wet, sticky, and still warm...");

@@ -8,6 +8,7 @@ namespace SillyCLID.Rooms
         {
             Name = "Sister's Room";
             Description = "This is your sister's room.  The wallpaper is mauve and has unicorns painted on it";
+            MaxConnections = 1;
         }
     }
 }

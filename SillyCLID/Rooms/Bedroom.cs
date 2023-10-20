@@ -9,6 +9,7 @@ namespace SillyCLID.Rooms
         {
             Name = "Bedroom";
             Description = "You are in your bedroom.  The sun is pouring though your window.";
+            MaxConnections = 1;
         }
         public void Spawn()
         {

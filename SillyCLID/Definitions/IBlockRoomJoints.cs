@@ -4,6 +4,7 @@
     {
         bool IsUnlocked { get; set; }
         void AttemptUnlock();
-        void FailAttempt();    
+        void FailAttempt();
+        IInteractableObject key { get; }
     }
 }

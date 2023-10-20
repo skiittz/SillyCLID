@@ -23,14 +23,14 @@ namespace SillyCLID.WorldItems
                     {
                         Command.Attack, _ =>
                         {
-                            Program._character.CurrentHealth -= 10;
-                            return new SimpleResponse("The demon dodges your attack and slashes in riposte! (hp -10)");
+                            Utilities.Program._character.Damage(10);
+                            return new SimpleResponse("The demon dodges your attack and slashes in riposte!");
                         }
                     },
                     {
                         Command.Describe, _ =>
                         {
-                            return new SimpleResponse("There is a pint size demon sitting on the bed.");
+                            return new SimpleResponse("There is a pint size demon sitting on the floor.");
                         }
                     }
                 };

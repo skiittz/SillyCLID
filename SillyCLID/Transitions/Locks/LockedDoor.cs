@@ -5,7 +5,7 @@ namespace SillyCLID.Transitions.Locks
     public class LockedDoor : IBlockRoomJoints
     {
         public bool IsUnlocked { get; set; }
-        private readonly IInteractableObject key;
+        public IInteractableObject key { get; }
 
         public LockedDoor(IInteractableObject key)
         {
@@ -26,5 +26,7 @@ namespace SillyCLID.Transitions.Locks
         {
             Console.WriteLine("The door is locked.");
         }
+
+        
     }
 }

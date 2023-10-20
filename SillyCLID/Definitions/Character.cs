@@ -22,6 +22,11 @@ namespace SillyCLID.Definitions
             response = $"You have obtained {item.ItemName}";
         }
 
+        public void Damage(int damage)
+        { 
+            CurrentHealth -= damage;
+        }
+
         public void CheckInventory()
         {
             var stringBuilder = new StringBuilder();

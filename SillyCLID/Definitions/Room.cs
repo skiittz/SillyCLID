@@ -6,7 +6,8 @@ namespace SillyCLID.Definitions
     {
         public string Name { get; protected set; }
         public string Description { get; protected set; }
-        
+        public int MaxConnections = Enum.GetValues<Direction>().Length;
+
         public Dictionary<string, IInteractableObject> WorldItems { get; set; } = new();
         public Dictionary<Direction, IJoinRooms> Exits { get; set; } = new();
 

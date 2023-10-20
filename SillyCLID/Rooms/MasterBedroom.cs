@@ -8,6 +8,7 @@ namespace SillyCLID.Rooms
         {
             Name = "Master Bedroom";
             Description = "This is was your parent's bedroom.";
+            MaxConnections = 1;
         }
     }
 }

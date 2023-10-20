@@ -120,11 +120,13 @@ namespace SillyCLID.Utilities
                     {sisterDemon.ItemName, sisterDemon}
                 }
             };
-
-            var masterBedroom = new MasterBedroom();
+            var corpse = new MangledCorpse();
+            var masterBedroom = new MasterBedroom{WorldItems = {{corpse.ItemName, corpse}} };
             spawnRoom.RegisterJoin<Tunnel>(Direction.East, hallway);
             hallway.RegisterJoin<WoodenDoor>(Direction.East, sistersRoom);
             hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor(new Key_WoodenDoor()));
+            var foyer = new MajesticFoyer();
+            hallway.RegisterJoin<ShimmeringPortal>(Direction.South, foyer,new MagicBarrier(new Key_MagicGem()));
             spawnRoom.Spawn();
         }
     }

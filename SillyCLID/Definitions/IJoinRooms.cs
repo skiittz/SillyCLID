@@ -3,9 +3,9 @@
     public interface IJoinRooms
     {
         string Name { get; }
+        string TraversalDescription { get; }
         Room NextRoom { get; set; }
         IBlockRoomJoints TraversalBlock { get; set; }
-        Room Traverse();
     }
 
     public static class RoomJoinExtensions
@@ -39,6 +39,13 @@
             
             joiner.TraversalBlock.FailAttempt();
             return null;
+        }
+
+        private static Room Traverse(this IJoinRooms joiner)
+        {
+            Console.WriteLine(joiner.TraversalDescription);
+            joiner.NextRoom.Describe();
+            return joiner.NextRoom;
         }
     }
 }
