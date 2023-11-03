@@ -105,26 +105,28 @@ namespace SillyCLID.Utilities
             if (_character == null)
                 _character = new Character();
 
-            var spawnRoom = new Bedroom();
-            _currentRoom = spawnRoom;
+            //var spawnRoom = new Bedroom();
+            //_currentRoom = spawnRoom;
 
-            var hallway = new BedroomHallway();
-            var sisterDemon = new BedroomDemon();
-            var sistersRoom = new SistersRoom
-            {
-                WorldItems =
-                {
-                    {sisterDemon.ItemName, sisterDemon}
-                }
-            };
-            var corpse = new MangledCorpse();
-            var masterBedroom = new MasterBedroom{WorldItems = {{corpse.ItemName, corpse}} };
-            spawnRoom.RegisterJoin<Tunnel>(Direction.East, hallway);
-            hallway.RegisterJoin<WoodenDoor>(Direction.East, sistersRoom);
-            hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor(new Key_WoodenDoor()));
-            var foyer = new MajesticFoyer();
-            hallway.RegisterJoin<ShimmeringPortal>(Direction.South, foyer,new MagicBarrier(new Key_MagicGem()));
-            spawnRoom.Spawn();
+            //var hallway = new BedroomHallway();
+            //var sisterDemon = new BedroomDemon();
+            //var sistersRoom = new SistersRoom
+            //{
+            //    WorldItems =
+            //    {
+            //        {sisterDemon.ItemName, sisterDemon}
+            //    }
+            //};
+            //var corpse = new MangledCorpse();
+            //var masterBedroom = new MasterBedroom{WorldItems = {{corpse.ItemName, corpse}} };
+            //spawnRoom.RegisterJoin<Tunnel>(Direction.East, hallway);
+            //hallway.RegisterJoin<WoodenDoor>(Direction.East, sistersRoom);
+            //hallway.RegisterJoin<WoodenDoor>(Direction.North, masterBedroom, new LockedDoor(new Key_WoodenDoor()));
+            //var foyer = new MajesticFoyer();
+            //hallway.RegisterJoin<ShimmeringPortal>(Direction.South, foyer,new MagicBarrier(new Key_MagicGem()));
+
+            if(Generator.GenerateSpawnRoom(out var spawnRoom));
+                ((IAmASpawnPoint)spawnRoom).Spawn();
         }
     }
 }

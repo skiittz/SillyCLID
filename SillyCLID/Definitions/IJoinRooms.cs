@@ -12,7 +12,6 @@
     {
         public static void RegisterJoin<T>(this Room sourceRoom, Direction direction, Room destinationRoom, IBlockRoomJoints joinBlock = null) where T : class, IJoinRooms
         {
-
             var joiner1 = Activator.CreateInstance(typeof(T)) as T;
             joiner1.NextRoom = destinationRoom;
 

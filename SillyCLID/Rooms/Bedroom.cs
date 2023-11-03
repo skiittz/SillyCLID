@@ -15,6 +15,8 @@ namespace SillyCLID.Rooms
         {
             if (Utilities.Program._character.CurrentHealth < Utilities.Program._character.MaxHealth)
                 Utilities.Program._character.CurrentHealth = Utilities.Program._character.MaxHealth;
+            
+            Utilities.Program._currentRoom = this;
 
             var skirt = new Skirt();
             //do nothing with response
